@@ -1,0 +1,39 @@
+body{
+    padding:0;
+    text-align: center;
+}
+
+.game-logo{
+    float: left;
+    padding: 0% 10%;
+}
+
+.snake-logo{
+    width: 350px;
+}
+
+#score-div{
+    font-size: 30px;
+    font-style: "Times New Roman";
+}
+
+body button {
+    font-size: 20px;
+    background-color: #870007;
+    color: #fff;
+    padding: 20px 40px;
+    border: 0;
+    box-shadow: 0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+
+#game-board {
+    float: left;
+    padding: 20px 0px;
+    background-image: url('./images/option2.png');
+    background-size: contain;
+    /* height: 600px;
+    width: 500px; */
+}
+
