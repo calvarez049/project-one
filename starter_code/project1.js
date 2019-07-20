@@ -16,10 +16,10 @@ class Game {
 
 class Snake {
     constructor(){
-        this.x = 400;
-        this.y = 300;
-        this.width = 50;
-        this.height = 50;
+        this.x = 0;
+        this.y = 350;
+        this.width = 30;
+        this.height = 30;
         // this.img = './images/head_right.png';
     }
 
@@ -31,35 +31,69 @@ class Snake {
     }
 
     moveSnake(){
-        speed += 1;
-        ctx.clearRect(this.x, this.y, this.width, this.height);
-        ctx.fillRect(speed,this.y,this.width,this.height);
-        window.requestAnimationFrame(moveSnake());
-              
-        // switch(num){
-
-        // }
+            if(this.x<canvas.width){
+            this.x += 4;
+            // console.log(this.x);
+        }
     }
-    // window.requestAnimationFrame(moveSnake());
 
+    controllingSnake(num){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        switch(num){
+            case 37: //left arrow key
+                if(this.x > 0){
+                this.x -= 10;
+                }
+                break;
 
+            case 38: //up arrow key
+                if(this.x > 0){
+                    this.x -= 10;
+                }
+                break;
+
+            case 39: //right arrow key
+                if(this.x > 0){
+                    this.x -= 10;
+                }    
+                break;
+
+            case 40: //down arrow key
+                if(this.x > 0){
+                    this.x -= 10;
+                
+                break;
+        }
+    }
 }
+
+document.onkeydown = function(e){
+    // console.log(e);
+    let movingSomewhere = e.keyCode;
+    currentGame.Snake.controllingSnake(movingSomewhere);
+}
+
+function clearCanvas(){
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+}
+
 document.getElementById("start-button").onclick = function() {
     startGame();
-  };
+};
 
+currentSnake = new Snake();
 function startGame(){
+    clearCanvas();
     document.getElementById("game-board").style.display = "block";
     currentGame = new Game();
-    currentSnake = new Snake();
-
+    // clearCanvas();
     currentGame.snake = currentSnake;
     currentSnake.drawSnake();
+    currentSnake.moveSnake();
+    window.requestAnimationFrame(startGame);
     // console.log(currentSnake);
-   // window.requestAnimationFrame(startGame);
 }
 
-// startGame();
 
 // ctx.fillStyle ="red";
 // ctx.fillRect(400,300,20,20);
