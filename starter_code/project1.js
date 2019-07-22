@@ -5,6 +5,8 @@ let speed = 0;
 // document.getElementById("game-board").style.display = "none";
 const canvas = document.getElementById('snake-game');
 const ctx = canvas.getContext('2d');
+const canvasW = ctx.canvas.width;
+const canvasH = ctx.canvas.height;
 
 class Game {
     constructor(){
@@ -27,23 +29,23 @@ class Snake {
     drawSnake(){
         // const snakeImg = new Image();
         // snakeImg.src = this.img;
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "green";
         ctx.fillRect(this.x , this.y, this.width, this.height);
     }
 
     moveSnake(){
         console.log('moving')
         if(this.direction == 'left'){
-            this.x -= 1;
+            this.x -= 3;
         }
         if(this.direction == 'right'){
-            this.x += 1;
+            this.x += 3;
         }
         if(this.direction == 'up'){
-            this.y -= 1;
+            this.y -= 3;
         }
         if(this.direction == 'down'){
-            this.y += 1;
+            this.y += 3;
         }
         
     }
@@ -85,10 +87,40 @@ class Snake {
         //this.drawSnake();
     }
 }
+
+class Food {
+    constructor(){
+        this.x = x;
+        this.y = y;
+        this.width = 20;
+        this.height = 30;
+        this.img = './images/burger-4286223_640.png';
+    }
+
+    drawFood() {
+        const foodImage = new Image();
+        foodImage.src = this.img;
+        ctx.drawImage(foodImage, this.x, this.y, this.width, this.height);
+    }
+
+    // getLeft() {
+    //     return this
+    // }
+}
 document.onkeydown = function(e){
     // console.log(e);
     let movingSomewhere = e.keyCode;
     currentSnake.controllingSnake(movingSomewhere);
+}
+
+
+function detectCanvasCollision() {
+    if (currentSnake.x <= 0 || currentSnake.y <= 0){
+        alert("YOU LOSE!");
+    } else if (currentSnake.x >= canvasW || currentSnake.y >= canvasH){
+        alert("YOU LOSE!");
+    }
+    // || currentSnake.y
 }
 
 function clearCanvas() {
@@ -103,109 +135,16 @@ currentSnake = new Snake();
 document.getElementById("game-board").style.display = "block";
 currentGame = new Game();
 currentGame.snake = currentSnake;
+console.log(canvasW,canvasH);
 
 function startGame(){
-    console.log('loop')
     clearCanvas();
     currentGame.snake.moveSnake();
     currentGame.snake.drawSnake();
+    console.log(currentSnake.y)
     // currentSnake.controllingSnake(movingSomewhere);
-    
+    detectCanvasCollision();
     window.requestAnimationFrame(startGame);
     //startGame();
-    // console.log(currentSnake);
 }
 
-
-// ctx.fillStyle ="red";
-// ctx.fillRect(400,300,20,20);
-// var speed1 = 0;
-
-// function clearCanvas(){
-//     ctx.clearRect(0,0,700,700);
-// }
-
-// function updateCanvas(){
-//     speed1 += 1;
-//     clearCanvas();
-//     ctx.fillRect ( speed1,300,30,30);
-//     window.requestAnimationFrame(updateCanvas);
-// }
-
-// window.requestAnimationFrame(updateCanvas);
-
-// class Food{
-//     constructor(x,y,width,height){
-//         this.x = x;
-//         this.y = y;
-//         this.width = width;
-//         this.height = height;
-//     }
-    
-//     drawFood(){
-         
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var bw = 800;
-// var bh = 800;
-// var p = 0;
-
-// function drawBoard(){
-//     ctx.beginPath();
-//     for (var x = 0; x < bw; x += 40) {
-//         ctx.moveTo(0 + x + p, p);
-//         ctx.lineTo(0 + x + p, bh + p);
-//         p = 10;
-//     }
-
-//     for (var x = 0; x < bh; x += 40) {
-//         ctx.moveTo(p, 0 + x + p);
-//         ctx.lineTo(bw + p, 0 + x + p);
-//         p = 10;
-//     }
-//     ctx.strokeStyle = "black";
-//     ctx.stroke();
-//     ctx.closePath();
-// }
-
-// drawBoard();
