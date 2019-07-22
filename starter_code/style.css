@@ -30,10 +30,7 @@ body button {
 
 #game-board {
     float: left;
-    padding: 20px 0px;
+    /* padding: 20px 0px; */
     background-image: url('./images/option2.png');
     background-size: contain;
-    /* height: 600px;
-    width: 500px; */
 }
-

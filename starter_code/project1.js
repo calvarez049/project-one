@@ -20,6 +20,7 @@ class Snake {
         this.y = 350;
         this.width = 30;
         this.height = 30;
+        this.direction = 'right';
         // this.img = './images/head_right.png';
     }
 
@@ -31,49 +32,66 @@ class Snake {
     }
 
     moveSnake(){
-            if(this.x<canvas.width){
-            this.x += 4;
-            // console.log(this.x);
+        console.log('moving')
+        if(this.direction == 'left'){
+            this.x -= 1;
         }
+        if(this.direction == 'right'){
+            this.x += 1;
+        }
+        if(this.direction == 'up'){
+            this.y -= 1;
+        }
+        if(this.direction == 'down'){
+            this.y += 1;
+        }
+        
     }
 
     controllingSnake(num){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
+        //ctx.clearRect(0,0,canvas.width,canvas.height);
         switch(num){
             case 37: //left arrow key
-                if(this.x > 0){
-                this.x -= 10;
-                }
+                this.direction = 'left';
+                console.log('left', currentGame.snake)
+                // if(this.x > 0){
+                //     this.x -= 10;
+                // }
                 break;
 
             case 38: //up arrow key
-                if(this.x > 0){
-                    this.x -= 10;
-                }
+                this.direction = 'up';
+                // if(this.y > 0){
+                //     this.y -= 10;
+                // }
                 break;
 
             case 39: //right arrow key
-                if(this.x > 0){
-                    this.x -= 10;
-                }    
+                this.direction = 'right';
+                // if(this.x < canvas.width){
+                //     this.x += 10;
+                // }    
                 break;
 
             case 40: //down arrow key
-                if(this.x > 0){
-                    this.x -= 10;
-                
+                this.direction = 'down';
+                // if(this.y < canvas.height){
+                //     this.y += 10;             
+                // }
                 break;
         }
+        
+
+        //this.drawSnake();
     }
 }
-
 document.onkeydown = function(e){
     // console.log(e);
     let movingSomewhere = e.keyCode;
-    currentGame.Snake.controllingSnake(movingSomewhere);
+    currentSnake.controllingSnake(movingSomewhere);
 }
 
-function clearCanvas(){
+function clearCanvas() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
 }
 
@@ -82,15 +100,19 @@ document.getElementById("start-button").onclick = function() {
 };
 
 currentSnake = new Snake();
+document.getElementById("game-board").style.display = "block";
+currentGame = new Game();
+currentGame.snake = currentSnake;
+
 function startGame(){
+    console.log('loop')
     clearCanvas();
-    document.getElementById("game-board").style.display = "block";
-    currentGame = new Game();
-    // clearCanvas();
-    currentGame.snake = currentSnake;
-    currentSnake.drawSnake();
-    currentSnake.moveSnake();
+    currentGame.snake.moveSnake();
+    currentGame.snake.drawSnake();
+    // currentSnake.controllingSnake(movingSomewhere);
+    
     window.requestAnimationFrame(startGame);
+    //startGame();
     // console.log(currentSnake);
 }
 
