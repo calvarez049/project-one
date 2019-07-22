@@ -1,6 +1,7 @@
 let currentGame;
 let currentSnake;
-let speed = 0;
+let currentFood;
+// let speed = 0;
 
 // document.getElementById("game-board").style.display = "none";
 const canvas = document.getElementById('snake-game');
@@ -89,11 +90,11 @@ class Snake {
 }
 
 class Food {
-    constructor(){
+    constructor(x, y, width, height){
         this.x = x;
         this.y = y;
-        this.width = 20;
-        this.height = 30;
+        this.width = 60;
+        this.height = 75;
         this.img = './images/burger-4286223_640.png';
     }
 
@@ -103,9 +104,18 @@ class Food {
         ctx.drawImage(foodImage, this.x, this.y, this.width, this.height);
     }
 
-    // getLeft() {
-    //     return this
-    // }
+    getLeft(){
+        return this.x;
+    }
+    getRight(){
+        return this.x + this.width;
+    }
+    getTop(){
+        return this.y;
+    }
+    getBottom(){
+        return this.y + this.height;
+    }
 }
 document.onkeydown = function(e){
     // console.log(e);
@@ -115,17 +125,36 @@ document.onkeydown = function(e){
 
 
 function detectCanvasCollision() {
-    if (currentSnake.x <= 0 || currentSnake.y <= 0){
+    if (currentSnake.x <= 0 || currentSnake.y <= 0 || currentSnake.x >= canvasW || currentSnake.y >= canvasH){
         alert("YOU LOSE!");
-    } else if (currentSnake.x >= canvasW || currentSnake.y >= canvasH){
+    } 
+}
+
+function detectFoodCollision(food){
+    return ((currentSnake.x === food.getLeft()) || (currentSnake.x === food.getRight()) 
+    || (currentSnake.y === food.getBottom()) || (currentSnake.x === food.getTop()));
+}
+
+function testCollision(){
+    let food1 = new Food(250,122,this.width,this.height);
+    food1.drawFood();
+    if (detectFoodCollision(food1)){
         alert("YOU LOSE!");
     }
-    // || currentSnake.y
 }
 
 function clearCanvas() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
 }
+
+// function update(){
+//     let randomFoodX = Math.floor(Math.random()* 810);
+//     let randomFoodY = Math.floor(Math.random()* 568);
+//     let food1 = new Food(randomFoodX, randomFoodY, this.width, this.height);
+//     food1.drawFood();
+//     currentGame.food.push(food1);
+//     if()
+// }
 
 document.getElementById("start-button").onclick = function() {
     startGame();
@@ -135,16 +164,19 @@ currentSnake = new Snake();
 document.getElementById("game-board").style.display = "block";
 currentGame = new Game();
 currentGame.snake = currentSnake;
-console.log(canvasW,canvasH);
+currentFood = new Food();
+console.log();
 
 function startGame(){
     clearCanvas();
     currentGame.snake.moveSnake();
     currentGame.snake.drawSnake();
-    console.log(currentSnake.y)
-    // currentSnake.controllingSnake(movingSomewhere);
+    // console.log(currentSnake.y)
     detectCanvasCollision();
-    window.requestAnimationFrame(startGame);
-    //startGame();
+    testCollision();
+    
+    
+    window.requestAnimationFrame(startGame); // same as startGame();
+   
 }
 
