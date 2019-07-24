@@ -12,7 +12,7 @@ const canvasH = ctx.canvas.height;
 class Game {
     constructor(){
       this.snake = {}; 
-      this.food = []; 
+      this.food = updateFood(); 
       this.score = 0;
     }
   }
@@ -27,7 +27,7 @@ class Snake {
         // this.img = './images/head_right.png';
     }
 
-    drawSnake(){
+    drawSnake(x ,y, width, height){
         // const snakeImg = new Image();
         // snakeImg.src = this.img;
         ctx.fillStyle = "green";
@@ -90,7 +90,7 @@ class Snake {
 }
 
 class Food {
-    constructor(x, y, width, height){
+    constructor(x, y){
         this.x = x;
         this.y = y;
         this.width = 60;
@@ -127,19 +127,19 @@ document.onkeydown = function(e){
 function detectCanvasCollision() {
     if (currentSnake.x <= 0 || currentSnake.y <= 0 || currentSnake.x >= canvasW || currentSnake.y >= canvasH){
         alert("YOU LOSE!");
+        window.location.reload();
     } 
 }
 
-function detectFoodCollision(food){
-    return ((currentSnake.x === food.getLeft()) || (currentSnake.x === food.getRight()) 
-    || (currentSnake.y === food.getBottom()) || (currentSnake.x === food.getTop()));
-}
-
-function testCollision(){
-    let food1 = new Food(250,122,this.width,this.height);
-    food1.drawFood();
-    if (detectFoodCollision(food1)){
-        alert("YOU LOSE!");
+function detectFoodCollision(currentFood, currentSnake){
+    if(currentFood.x < currentSnake.x + currentSnake.width &&
+        currentFood.x + currentFood.width > currentSnake.x &&
+        currentFood.y < currentSnake.y + currentSnake.height &&
+        currentFood.y + currentFood.height > currentSnake.y){
+                currentGame.food = updateFood();
+                currentGame.score += 1;
+                document.getElementById("score").innerHTML = currentGame.score;
+                currentSnake.drawSnake(currentSnake.x, currentSnake.y,currentSnake.width + 30, currentSnake.height +30);
     }
 }
 
@@ -147,36 +147,33 @@ function clearCanvas() {
     ctx.clearRect(0,0, canvas.width, canvas.height);
 }
 
-// function update(){
-//     let randomFoodX = Math.floor(Math.random()* 810);
-//     let randomFoodY = Math.floor(Math.random()* 568);
-//     let food1 = new Food(randomFoodX, randomFoodY, this.width, this.height);
-//     food1.drawFood();
-//     currentGame.food.push(food1);
-//     if()
-// }
+function updateFood(){
+    let randomFoodX = Math.floor(Math.random()* 800);
+    let randomFoodY = Math.floor(Math.random()* 500);
+    return new Food(randomFoodX, randomFoodY);
+}
 
 document.getElementById("start-button").onclick = function() {
     startGame();
+    document.getElementById("start-button").onclick =null;
 };
 
 currentSnake = new Snake();
 document.getElementById("game-board").style.display = "block";
 currentGame = new Game();
 currentGame.snake = currentSnake;
-currentFood = new Food();
-console.log();
+currentGame.score = 0;
 
 function startGame(){
     clearCanvas();
     currentGame.snake.moveSnake();
     currentGame.snake.drawSnake();
-    // console.log(currentSnake.y)
-    detectCanvasCollision();
-    testCollision();
+    detectCanvasCollision()
+    currentGame.food.drawFood();
+    detectFoodCollision(currentGame.food, currentSnake)
     
-    
-    window.requestAnimationFrame(startGame); // same as startGame();
-   
+    window.requestAnimationFrame(startGame); // same as startGame();  
 }
+
+// startGame();
 
