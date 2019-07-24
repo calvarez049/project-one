@@ -37,16 +37,16 @@ class Snake {
     moveSnake(){
         console.log('moving')
         if(this.direction == 'left'){
-            this.x -= 3;
+            this.x -= 5;
         }
         if(this.direction == 'right'){
-            this.x += 3;
+            this.x += 5;
         }
         if(this.direction == 'up'){
-            this.y -= 3;
+            this.y -= 15;
         }
         if(this.direction == 'down'){
-            this.y += 3;
+            this.y += 15;
         }
         
     }
