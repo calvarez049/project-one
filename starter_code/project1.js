@@ -37,7 +37,7 @@ class Snake {
     moveSnake(){
         console.log('moving')
         if(this.direction == 'left'){
-            this.x -= 5;
+            this.x -= 5 //+ Math.floor((currentGame.score / 5));
         }
         if(this.direction == 'right'){
             this.x += 5;
@@ -90,7 +90,7 @@ class Snake {
 }
 
 class Food {
-    constructor(x, y){
+    constructor(x, y, context){
         this.x = x;
         this.y = y;
         this.width = 60;
@@ -139,7 +139,7 @@ function detectFoodCollision(currentFood, currentSnake){
                 currentGame.food = updateFood();
                 currentGame.score += 1;
                 document.getElementById("score").innerHTML = currentGame.score;
-                currentSnake.drawSnake(currentSnake.x, currentSnake.y,currentSnake.width + 30, currentSnake.height +30);
+                // currentSnake.drawSnake(currentSnake.x, currentSnake.y,currentSnake.width + 30, currentSnake.height +30);
     }
 }
 
@@ -154,6 +154,8 @@ function updateFood(){
 }
 
 document.getElementById("start-button").onclick = function() {
+    //var myGame = new Game(ctx);
+    //myGame.startGame()
     startGame();
     document.getElementById("start-button").onclick =null;
 };
